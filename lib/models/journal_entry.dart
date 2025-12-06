@@ -1,4 +1,5 @@
-// lib/models/journal_entry.dart
+import 'package:uuid/uuid.dart';
+
 class JournalEntry {
   final String id;
   final String title;
@@ -6,9 +7,10 @@ class JournalEntry {
   final DateTime createdAt;
 
   JournalEntry({
-    required this.id,
+    String? id,
     required this.title,
     required this.description,
-    required this.createdAt,
-  });
+    DateTime? createdAt,
+  })  : id = id ?? const Uuid().v4(),
+        createdAt = createdAt ?? DateTime.now();
 }

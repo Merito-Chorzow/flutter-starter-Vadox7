@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
 
-class EntryDetailsScreen extends StatelessWidget {
-  final int entryId;
+import '../models/journal_entry.dart';
 
-  // Odbieramy argumenty z nawigacji
-  EntryDetailsScreen({Key? key, required this.entryId}) : super(key: key);
+class EntryDetailsScreen extends StatelessWidget {
+  const EntryDetailsScreen({super.key});
+
+  static const routeName = '/entry-details';
 
   @override
   Widget build(BuildContext context) {
+    final entry =
+        ModalRoute.of(context)!.settings.arguments as JournalEntry;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Szczegóły Wpisu $entryId'),
+        title: Text(entry.title),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Tytuł: Wpis $entryId', style: Theme.of(context).textTheme.headline5),
-            SizedBox(height: 8),
-            Text('Opis: To jest opis wpisu. Tu będzie miejsce na szczegóły.', style: Theme.of(context).textTheme.bodyText1),
-            SizedBox(height: 16),
-            Text('Lokalizacja: Tu będzie lokalizacja.', style: Theme.of(context).textTheme.bodyText2),
-            SizedBox(height: 16),
-            // Przykład zdjęcia
-            Image.asset('assets/sample_image.jpg'),
-            // Dodaj inne dane związane z wpisem
+            Text(
+              entry.title,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              entry.description,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Data: ${entry.createdAt.toLocal().toString().substring(0, 16)}',
+            ),
           ],
         ),
       ),

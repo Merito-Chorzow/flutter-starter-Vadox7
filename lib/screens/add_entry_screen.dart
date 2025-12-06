@@ -1,42 +1,60 @@
 import 'package:flutter/material.dart';
 
-class AddEntryScreen extends StatelessWidget {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+import '../models/journal_entry.dart';
+
+class AddEntryScreen extends StatefulWidget {
+  const AddEntryScreen({super.key});
+
+  static const routeName = '/add-entry';
+
+  @override
+  State<AddEntryScreen> createState() => _AddEntryScreenState();
+}
+
+class _AddEntryScreenState extends State<AddEntryScreen> {
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
+  void _save() {
+    if (_titleController.text.trim().isEmpty) return;
+
+    final entry = JournalEntry(
+      title: _titleController.text.trim(),
+      description: _descriptionController.text.trim(),
+    );
+
+    Navigator.of(context).pop(entry);
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dodaj Wpis'),
-      ),
+      appBar: AppBar(title: const Text('Dodaj wpis')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Tytuł'),
+              decoration: const InputDecoration(labelText: 'Tytuł'),
             ),
+            const SizedBox(height: 8),
             TextField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Opis'),
+              decoration: const InputDecoration(labelText: 'Opis'),
+              maxLines: 3,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // Logika pobierania lokalizacji lub zdjęcia
-                // Można dodać funkcje natywne do tego przycisku
-              },
-              child: Text('Pobierz Lokalizację lub Zrób Zdjęcie'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Logika zapisywania wpisu
-              },
-              child: Text('Zapisz Wpis'),
+              onPressed: _save,
+              child: const Text('Zapisz'),
             ),
           ],
         ),

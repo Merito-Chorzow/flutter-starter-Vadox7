@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
-import 'entries_list_screen.dart';
-import 'entry_details_screen.dart';
-import 'add_entry_screen.dart';
+
+import 'screens/entries_list_screen.dart';
+import 'screens/add_entry_screen.dart';
+import 'screens/entry_details_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const GeoJournalApp());
 }
 
-class MyApp extends StatelessWidget {
+class GeoJournalApp extends StatelessWidget {
+  const GeoJournalApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Geo Journal',
-      initialRoute: '/',
+      title: 'Geo Journal',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      initialRoute: EntriesListScreen.routeName,
       routes: {
-        '/': (context) => EntriesListScreen(),
-        '/entryDetails': (context) => EntryDetailsScreen(entryId: ModalRoute.of(context)!.settings.arguments as int),
-        '/addEntry': (context) => AddEntryScreen(),
+        EntriesListScreen.routeName: (ctx) => const EntriesListScreen(),
+        AddEntryScreen.routeName: (ctx) => const AddEntryScreen(),
+        EntryDetailsScreen.routeName: (ctx) => const EntryDetailsScreen(),
       },
     );
   }
